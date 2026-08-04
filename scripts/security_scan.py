@@ -3,7 +3,20 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 EXCLUDED = {".git", ".venv", "node_modules", "dist", "backups", "artifacts"}
-TEXT_SUFFIXES = {".py", ".ts", ".tsx", ".js", ".json", ".yml", ".yaml", ".md", ".sql", ".ps1", ".ttl", ".rq"}
+TEXT_SUFFIXES = {
+    ".py",
+    ".ts",
+    ".tsx",
+    ".js",
+    ".json",
+    ".yml",
+    ".yaml",
+    ".md",
+    ".sql",
+    ".ps1",
+    ".ttl",
+    ".rq",
+}
 PATTERNS = {
     "AWS access key": re.compile(r"AKIA[0-9A-Z]{16}"),
     "private key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
