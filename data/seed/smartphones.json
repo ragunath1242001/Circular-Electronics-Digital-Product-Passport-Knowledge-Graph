@@ -1,0 +1,24 @@
+[
+  {
+    "product_identifier": "JX1",
+    "product_name": "JSON Circular",
+    "model_number": "JX1-EU",
+    "manufacturer_name": "JSON Devices BV",
+    "manufacturing_date": "2026-07-01",
+    "repairability_score": 8.0,
+    "software_support_years": 7,
+    "carbon_kg_co2e": 41.2,
+    "battery_identifier": "BAT-JX1",
+    "battery_chemistry": "LFP",
+    "battery_capacity_mah": 4600,
+    "battery_cycle_endurance": 1100,
+    "battery_user_replaceable": true,
+    "battery_carbon_kg_co2e": 8.1,
+    "display_identifier": "DISPLAY-JX1",
+    "supplier_name": "JSON Cells GmbH",
+    "material_name": "Lithium",
+    "material_origin": "Atacama Processing",
+    "recycled_content_percentage": 10
+  }
+]
+

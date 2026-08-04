@@ -1,0 +1,9 @@
+PREFIX dpp: <https://example.org/dpp/>
+
+SELECT ?component ?componentType WHERE {
+  GRAPH ?graph {
+    ?product dpp:productIdentifier "CFX1" ; dpp:containsComponent ?component .
+    ?component a ?componentType .
+    FILTER(?componentType != dpp:Component)
+  }
+}

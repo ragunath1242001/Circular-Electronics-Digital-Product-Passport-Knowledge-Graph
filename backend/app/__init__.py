@@ -1,0 +1,2 @@
+"""Digital Product Passport API."""
+

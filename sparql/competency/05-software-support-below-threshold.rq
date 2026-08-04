@@ -1,0 +1,8 @@
+PREFIX dpp: <https://example.org/dpp/>
+
+SELECT ?product ?years WHERE {
+  GRAPH ?graph {
+    ?product dpp:hasSoftwareSupportCommitment/dpp:softwareSupportYears ?years .
+    FILTER(?years < 8)
+  }
+}

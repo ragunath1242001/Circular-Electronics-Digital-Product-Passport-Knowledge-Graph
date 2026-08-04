@@ -1,0 +1,10 @@
+PREFIX dpp: <https://example.org/dpp/>
+
+SELECT DISTINCT ?entity ?claim ?value WHERE {
+  GRAPH ?graph {
+    ?entity ?claim ?value .
+    FILTER(STRSTARTS(STR(?claim), STR(dpp:)))
+    FILTER NOT EXISTS { ?entity dpp:hasProvenance ?record }
+  }
+}
+LIMIT 200

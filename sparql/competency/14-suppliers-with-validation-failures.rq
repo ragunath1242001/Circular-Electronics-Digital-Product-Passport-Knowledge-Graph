@@ -1,0 +1,10 @@
+PREFIX dpp: <https://example.org/dpp/>
+PREFIX dct: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?supplier ?supplierName ?failure ?message WHERE {
+  GRAPH ?graph {
+    ?component dpp:suppliedBy ?supplier ; dpp:hasValidationFailure ?failure .
+    OPTIONAL { ?supplier dct:title ?supplierName }
+    OPTIONAL { ?failure dpp:message ?message }
+  }
+}

@@ -1,0 +1,25 @@
+@prefix dpp: <https://example.org/dpp/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dpp:CertificateShape a sh:NodeShape ;
+    sh:targetClass dpp:Certificate ;
+    sh:property [ sh:path dpp:certificateIdentifier ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+        sh:severity sh:Violation ; sh:message "A certificate must have one identifier."@en ] ;
+    sh:property [ sh:path dpp:certificateType ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:severity sh:Violation ; sh:message "A certificate must have one type."@en ] ;
+    sh:property [ sh:path dpp:issuedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class dpp:CertificationBody ;
+        sh:severity sh:Violation ; sh:message "A certificate must have one issuer."@en ] ;
+    sh:property [ sh:path dpp:validFrom ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
+        sh:lessThan dpp:validUntil ; sh:severity sh:Violation ;
+        sh:message "Certificate valid-from date must be before valid-until date."@en ] ;
+    sh:property [ sh:path dpp:validUntil ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
+        sh:severity sh:Violation ; sh:message "A certificate must have one valid-until date."@en ] ;
+    sh:property [ sh:path dpp:coversEntity ; sh:minCount 1 ;
+        sh:severity sh:Violation ; sh:message "A certificate must identify its covered entity."@en ] ;
+    sh:or (
+        [ sh:property [ sh:path dpp:hasEvidence ; sh:minCount 1 ] ]
+        [ sh:property [ sh:path dpp:evidenceUrl ; sh:minCount 1 ; sh:datatype xsd:anyURI ] ]
+    ) ;
+    sh:message "A certificate must link evidence or an evidence URL."@en .
+

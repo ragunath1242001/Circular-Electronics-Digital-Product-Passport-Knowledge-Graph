@@ -1,0 +1,41 @@
+@prefix dpp: <https://example.org/dpp/> .
+@prefix dpp-material: <https://example.org/dpp/material/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/dpp/ontology/materials>
+    a owl:Ontology ;
+    owl:imports <https://example.org/dpp/ontology/core> ;
+    owl:versionIRI <https://example.org/dpp/ontology/materials/1.0.0> ;
+    owl:versionInfo "1.0.0" ;
+    dct:title "DPP Materials Ontology"@en .
+
+dpp:Material a owl:Class ; rdfs:label "Material"@en .
+dpp:Substance a owl:Class ; rdfs:label "Substance"@en .
+dpp:MaterialType a owl:Class ; rdfs:subClassOf skos:Concept ; rdfs:label "Material type"@en .
+dpp:CriticalRawMaterial a owl:Class ; rdfs:subClassOf dpp:MaterialType ; rdfs:label "Critical raw material"@en .
+
+dpp:containsMaterial a owl:ObjectProperty ; rdfs:range dpp:Material ; rdfs:label "contains material"@en .
+dpp:materialType a owl:ObjectProperty ;
+    rdfs:domain dpp:Material ; rdfs:range dpp:MaterialType ; rdfs:label "material type"@en .
+dpp:recycledContentPercentage a owl:DatatypeProperty ;
+    rdfs:domain dpp:Material ; rdfs:range xsd:decimal ; rdfs:label "recycled content percentage"@en .
+dpp:massPercentage a owl:DatatypeProperty ;
+    rdfs:domain dpp:Material ; rdfs:range xsd:decimal ; rdfs:label "mass percentage"@en .
+
+dpp-material:lithium a dpp:CriticalRawMaterial ; skos:prefLabel "Lithium"@en .
+dpp-material:cobalt a dpp:CriticalRawMaterial ; skos:prefLabel "Cobalt"@en .
+dpp-material:nickel a dpp:CriticalRawMaterial ; skos:prefLabel "Nickel"@en .
+dpp-material:graphite a dpp:CriticalRawMaterial ; skos:prefLabel "Graphite"@en .
+dpp-material:copper a dpp:MaterialType ; skos:prefLabel "Copper"@en .
+dpp-material:gold a dpp:CriticalRawMaterial ; skos:prefLabel "Gold"@en .
+dpp-material:tin a dpp:MaterialType ; skos:prefLabel "Tin"@en .
+dpp-material:tantalum a dpp:CriticalRawMaterial ; skos:prefLabel "Tantalum"@en .
+dpp-material:tungsten a dpp:CriticalRawMaterial ; skos:prefLabel "Tungsten"@en .
+dpp-material:aluminium a dpp:MaterialType ; skos:prefLabel "Aluminium"@en .
+dpp-material:plastics a dpp:MaterialType ; skos:prefLabel "Plastics"@en .
+dpp-material:rare-earth-elements a dpp:CriticalRawMaterial ; skos:prefLabel "Rare-earth elements"@en .
+

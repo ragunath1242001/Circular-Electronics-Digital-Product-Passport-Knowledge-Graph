@@ -1,0 +1,29 @@
+@prefix dpp: <https://example.org/dpp/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://example.org/dpp/ontology/organizations>
+    a owl:Ontology ;
+    owl:imports <https://example.org/dpp/ontology/core> ;
+    owl:versionIRI <https://example.org/dpp/ontology/organizations/1.0.0> ;
+    owl:versionInfo "1.0.0" ;
+    dct:title "DPP Organizations Ontology"@en .
+
+dpp:EconomicOperator a owl:Class ; rdfs:subClassOf org:Organization ; rdfs:label "Economic operator"@en .
+dpp:Manufacturer a owl:Class ; rdfs:subClassOf dpp:EconomicOperator ; rdfs:label "Manufacturer"@en .
+dpp:Supplier a owl:Class ; rdfs:subClassOf dpp:EconomicOperator ; rdfs:label "Supplier"@en .
+dpp:Recycler a owl:Class ; rdfs:subClassOf dpp:EconomicOperator ; rdfs:label "Recycler"@en .
+dpp:RepairOperator a owl:Class ; rdfs:subClassOf dpp:EconomicOperator ; rdfs:label "Repair operator"@en .
+dpp:CertificationBody a owl:Class ; rdfs:subClassOf dpp:EconomicOperator ; rdfs:label "Certification body"@en .
+dpp:Facility a owl:Class ; rdfs:subClassOf org:Site ; rdfs:label "Facility"@en .
+
+dpp:manufacturedBy a owl:ObjectProperty ; rdfs:range dpp:Manufacturer ; rdfs:label "manufactured by"@en .
+dpp:suppliedBy a owl:ObjectProperty ; rdfs:range dpp:Supplier ; rdfs:label "supplied by"@en .
+dpp:assembledAt a owl:ObjectProperty ; rdfs:range dpp:Facility ; rdfs:label "assembled at"@en .
+dpp:manufacturedAt a owl:ObjectProperty ; rdfs:range dpp:Facility ; rdfs:label "manufactured at"@en .
+dpp:recycledBy a owl:ObjectProperty ; rdfs:range dpp:Recycler ; rdfs:label "recycled by"@en .
+dpp:repairedBy a owl:ObjectProperty ; rdfs:range dpp:RepairOperator ; rdfs:label "repaired by"@en .
+dpp:originatesFrom a owl:ObjectProperty ; rdfs:range dpp:Facility ; rdfs:label "originates from"@en .
+

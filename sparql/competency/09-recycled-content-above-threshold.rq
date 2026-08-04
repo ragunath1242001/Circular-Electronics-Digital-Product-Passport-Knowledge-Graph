@@ -1,0 +1,12 @@
+PREFIX dpp: <https://example.org/dpp/>
+PREFIX dct: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?product ?name ?material ?percentage WHERE {
+  GRAPH ?graph {
+    ?product a dpp:Smartphone ; dct:title ?name ;
+      dpp:containsComponent/dpp:containsMaterial ?material .
+    ?material dpp:recycledContentPercentage ?percentage .
+    FILTER(?percentage >= 20)
+  }
+}
+ORDER BY DESC(?percentage)

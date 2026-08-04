@@ -1,0 +1,71 @@
+@prefix dpp: <https://example.org/dpp/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/dpp/ontology/core>
+    a owl:Ontology ;
+    owl:versionIRI <https://example.org/dpp/ontology/core/1.0.0> ;
+    owl:versionInfo "1.0.0" ;
+    dct:title "Digital Product Passport Core Ontology"@en ;
+    dct:description "Core product, passport, lifecycle, and circularity concepts."@en .
+
+dpp:DigitalProductPassport a owl:Class ; rdfs:label "Digital product passport"@en .
+dpp:Product a owl:Class ; rdfs:label "Product"@en .
+dpp:ProductModel a owl:Class ; rdfs:subClassOf dpp:Product ; rdfs:label "Product model"@en .
+dpp:ProductBatch a owl:Class ; rdfs:subClassOf dpp:Product ; rdfs:label "Product batch"@en .
+dpp:ProductItem a owl:Class ; rdfs:subClassOf dpp:Product ; rdfs:label "Product item"@en .
+dpp:Component a owl:Class ; rdfs:label "Component"@en .
+dpp:CarbonFootprintAssessment a owl:Class ; rdfs:label "Carbon footprint assessment"@en .
+dpp:Certificate a owl:Class ; rdfs:label "Certificate"@en .
+dpp:RepairInstruction a owl:Class ; rdfs:label "Repair instruction"@en .
+dpp:RecyclingInstruction a owl:Class ; rdfs:label "Recycling instruction"@en .
+dpp:SoftwareSupportCommitment a owl:Class ; rdfs:label "Software support commitment"@en .
+dpp:SupplyChainEvent a owl:Class ; rdfs:label "Supply-chain event"@en .
+dpp:EvidenceDocument a owl:Class ; rdfs:label "Evidence document"@en .
+dpp:LifecycleStatus a owl:Class ; rdfs:label "Lifecycle status"@en .
+
+dpp:Active a dpp:LifecycleStatus ; rdfs:label "Active"@en .
+dpp:Archived a dpp:LifecycleStatus ; rdfs:label "Archived"@en .
+
+dpp:hasPassport a owl:ObjectProperty ;
+    rdfs:domain dpp:Product ; rdfs:range dpp:DigitalProductPassport ;
+    owl:inverseOf dpp:describesProduct ; rdfs:label "has passport"@en .
+dpp:describesProduct a owl:ObjectProperty ;
+    rdfs:domain dpp:DigitalProductPassport ; rdfs:range dpp:Product ;
+    rdfs:label "describes product"@en .
+dpp:hasBatch a owl:ObjectProperty ;
+    rdfs:domain dpp:ProductModel ; rdfs:range dpp:ProductBatch ; rdfs:label "has batch"@en .
+dpp:hasItem a owl:ObjectProperty ;
+    rdfs:domain dpp:ProductBatch ; rdfs:range dpp:ProductItem ; rdfs:label "has item"@en .
+dpp:containsComponent a owl:ObjectProperty ;
+    rdfs:domain dpp:Product ; rdfs:range dpp:Component ; rdfs:label "contains component"@en .
+dpp:hasCarbonFootprint a owl:ObjectProperty ;
+    rdfs:range dpp:CarbonFootprintAssessment ; rdfs:label "has carbon footprint"@en .
+dpp:hasCertificate a owl:ObjectProperty ;
+    rdfs:range dpp:Certificate ; rdfs:label "has certificate"@en .
+dpp:hasRepairInstruction a owl:ObjectProperty ;
+    rdfs:range dpp:RepairInstruction ; rdfs:label "has repair instruction"@en .
+dpp:hasRecyclingInstruction a owl:ObjectProperty ;
+    rdfs:range dpp:RecyclingInstruction ; rdfs:label "has recycling instruction"@en .
+dpp:hasSoftwareSupportCommitment a owl:ObjectProperty ;
+    rdfs:range dpp:SoftwareSupportCommitment ; rdfs:label "has software support commitment"@en .
+dpp:hasSupplyChainEvent a owl:ObjectProperty ;
+    rdfs:range dpp:SupplyChainEvent ; rdfs:label "has supply-chain event"@en .
+dpp:hasLifecycleStatus a owl:ObjectProperty ;
+    rdfs:range dpp:LifecycleStatus ; rdfs:label "has lifecycle status"@en .
+
+dpp:productIdentifier a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "product identifier"@en .
+dpp:modelNumber a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "model number"@en .
+dpp:serialNumber a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "serial number"@en .
+dpp:batchNumber a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "batch number"@en .
+dpp:manufacturingDate a owl:DatatypeProperty ; rdfs:range xsd:date ; rdfs:label "manufacturing date"@en .
+dpp:carbonValue a owl:DatatypeProperty ; rdfs:range xsd:decimal ; rdfs:label "carbon value"@en .
+dpp:repairabilityScore a owl:DatatypeProperty ; rdfs:range xsd:decimal ; rdfs:label "repairability score"@en .
+dpp:recyclabilityScore a owl:DatatypeProperty ; rdfs:range xsd:decimal ; rdfs:label "recyclability score"@en .
+dpp:softwareSupportYears a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:label "software support years"@en .
+dpp:version a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "version"@en .
+dpp:ontologyVersion a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:label "ontology version"@en .
+dpp:createdAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime ; rdfs:label "created at"@en .
+dpp:updatedAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime ; rdfs:label "updated at"@en .

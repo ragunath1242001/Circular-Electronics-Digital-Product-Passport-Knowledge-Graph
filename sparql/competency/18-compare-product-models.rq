@@ -1,0 +1,11 @@
+PREFIX dpp: <https://example.org/dpp/>
+PREFIX dct: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?product ?name ?model ?repairability ?carbon WHERE {
+  GRAPH ?graph {
+    ?product a dpp:Smartphone ; dct:title ?name ; dpp:modelNumber ?model ;
+      dpp:repairabilityScore ?repairability ;
+      dpp:hasCarbonFootprint/dpp:carbonValue ?carbon .
+  }
+}
+ORDER BY DESC(?repairability) ?carbon

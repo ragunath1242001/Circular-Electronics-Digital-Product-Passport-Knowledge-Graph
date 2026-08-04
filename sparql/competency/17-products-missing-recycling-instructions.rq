@@ -1,0 +1,9 @@
+PREFIX dpp: <https://example.org/dpp/>
+PREFIX dct: <http://purl.org/dc/terms/>
+
+SELECT DISTINCT ?product ?name WHERE {
+  GRAPH ?graph {
+    ?product a dpp:Smartphone ; dct:title ?name .
+    FILTER NOT EXISTS { ?product dpp:hasRecyclingInstruction ?instruction }
+  }
+}

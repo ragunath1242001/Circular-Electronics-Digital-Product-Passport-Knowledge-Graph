@@ -1,0 +1,55 @@
+@prefix dpp: <https://example.org/dpp/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dpp:BatteryShape a sh:NodeShape ;
+    sh:targetClass dpp:Battery ;
+    sh:property [ sh:path dpp:productIdentifier ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+        sh:severity sh:Violation ; sh:message "A battery must have one identifier."@en ] ;
+    sh:property [ sh:path dpp:chemistry ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+        sh:severity sh:Violation ; sh:message "A battery must declare its chemistry."@en ] ;
+    sh:property [ sh:path dpp:batteryCapacity ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+        sh:minExclusive 0 ; sh:severity sh:Violation ; sh:message "Battery capacity must be positive."@en ] ;
+    sh:property [
+        sh:path dpp:quantityValue ; sh:minCount 1 ;
+        sh:node [ sh:property [ sh:path qudt:unit ; sh:minCount 1 ; sh:maxCount 1 ] ] ;
+        sh:severity sh:Violation ; sh:message "Battery capacity must include a unit."@en
+    ] ;
+    sh:property [ sh:path dpp:batteryCycleEndurance ; sh:minCount 1 ; sh:datatype xsd:integer ;
+        sh:severity sh:Violation ; sh:message "A battery must declare cycle endurance."@en ] ;
+    sh:property [ sh:path dpp:batteryCycleEndurance ; sh:minInclusive 500 ;
+        sh:severity sh:Warning ; sh:message "Battery cycle endurance below 500 requires review."@en ] ;
+    sh:property [ sh:path dpp:isUserReplaceable ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ;
+        sh:severity sh:Violation ; sh:message "A battery must declare replaceability."@en ] ;
+    sh:property [ sh:path dpp:containsMaterial ; sh:minCount 1 ; sh:class dpp:Material ;
+        sh:severity sh:Violation ; sh:message "A battery must contain at least one material."@en ] ;
+    sh:property [ sh:path dpp:hasCarbonFootprint ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:severity sh:Violation ; sh:message "A battery must have one carbon-footprint assessment."@en ] ;
+    sh:property [ sh:path dpp:hasRecyclingInstruction ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:severity sh:Violation ; sh:message "A battery must have one end-of-life instruction."@en ] ;
+    sh:property [ sh:path dpp:hasProvenance ; sh:minCount 1 ; sh:class dpp:ProvenanceRecord ;
+        sh:severity sh:Violation ; sh:message "A battery must have provenance."@en ] ;
+    sh:or (
+        [ sh:property [ sh:path dpp:manufacturedBy ; sh:minCount 1 ] ]
+        [ sh:property [ sh:path dpp:suppliedBy ; sh:minCount 1 ] ]
+    ) ;
+    sh:message "A battery must identify a manufacturer or supplier."@en .
+
+dpp:CarbonFootprintShape a sh:NodeShape ;
+    sh:targetClass dpp:CarbonFootprintAssessment ;
+    sh:property [ sh:path dpp:carbonValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+        sh:severity sh:Violation ; sh:message "A carbon footprint must have one decimal value."@en ] ;
+    sh:property [
+        sh:path dpp:quantityValue ; sh:minCount 1 ;
+        sh:node [ sh:property [ sh:path qudt:unit ; sh:minCount 1 ; sh:maxCount 1 ] ] ;
+        sh:severity sh:Violation ; sh:message "A carbon footprint must include a unit."@en
+    ] .
+
+dpp:MaterialDataShape a sh:NodeShape ;
+    sh:targetClass dpp:Material ;
+    sh:property [
+        sh:path dpp:recycledContentPercentage ; sh:minCount 1 ; sh:minInclusive 0 ; sh:maxInclusive 100 ;
+        sh:severity sh:Info ; sh:message "Recycled-content percentage is recommended for every material."@en
+    ] .
+

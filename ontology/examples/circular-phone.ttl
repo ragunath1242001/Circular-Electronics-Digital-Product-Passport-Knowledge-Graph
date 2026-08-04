@@ -1,0 +1,127 @@
+@prefix dpp: <https://example.org/dpp/> .
+@prefix dpp-material: <https://example.org/dpp/material/> .
+@prefix dpp-res: <https://example.org/dpp/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dpp-res:product-cfx1 a dpp:Smartphone, dpp:ProductModel ;
+    dct:title "Circular One"@en ;
+    dpp:productIdentifier "CFX1" ;
+    dpp:modelNumber "CFX1-EU" ;
+    dpp:manufacturingDate "2026-06-12"^^xsd:date ;
+    dpp:manufacturedBy dpp-res:company-eco-devices ;
+    dpp:assembledAt dpp-res:facility-eindhoven-assembly ;
+    dpp:containsComponent dpp-res:battery-bat-00012, dpp-res:display-00012 ;
+    dpp:hasPassport dpp-res:passport-cfx1-v1 ;
+    dpp:hasCertificate dpp-res:certificate-cert-0012 ;
+    dpp:hasCarbonFootprint dpp-res:assessment-cfx1-carbon ;
+    dpp:hasRepairInstruction dpp-res:instruction-cfx1-repair ;
+    dpp:hasRecyclingInstruction dpp-res:instruction-cfx1-recycle ;
+    dpp:hasSoftwareSupportCommitment dpp-res:commitment-cfx1-support ;
+    dpp:hasLifecycleStatus dpp:Active ;
+    dpp:repairabilityScore "8.2"^^xsd:decimal ;
+    dpp:hasProvenance dpp-res:provenance-cfx1-record .
+
+dpp-res:passport-cfx1-v1 a dpp:DigitalProductPassport ;
+    dpp:describesProduct dpp-res:product-cfx1 ;
+    dpp:version "1.0.0" ;
+    dpp:createdAt "2026-08-04T17:00:00Z"^^xsd:dateTime .
+
+dpp-res:battery-bat-00012 a dpp:Battery ;
+    dpp:productIdentifier "BAT-00012" ;
+    dpp:chemistry "NMC 811" ;
+    dpp:batteryCapacity "4500"^^xsd:decimal ;
+    dpp:batteryCycleEndurance 1000 ;
+    dpp:isUserReplaceable true ;
+    dpp:suppliedBy dpp-res:company-circular-cells ;
+    dpp:containsMaterial dpp-res:material-bat-00012-cobalt, dpp-res:material-bat-00012-lithium ;
+    dpp:quantityValue dpp-res:quantity-bat-00012-capacity ;
+    dpp:hasCarbonFootprint dpp-res:assessment-bat-00012-carbon ;
+    dpp:hasRecyclingInstruction dpp-res:instruction-bat-00012-recycle ;
+    dpp:hasProvenance dpp-res:provenance-bat-00012-record .
+
+dpp-res:quantity-bat-00012-capacity a qudt:QuantityValue ;
+    qudt:numericValue "4500"^^xsd:decimal ;
+    qudt:unit unit:MilliA-HR .
+
+dpp-res:display-00012 a dpp:Display ;
+    dpp:productIdentifier "DISPLAY-00012" ;
+    dpp:suppliedBy dpp-res:company-clearview-components .
+
+dpp-res:material-bat-00012-cobalt a dpp:Material ;
+    dpp:materialType dpp-material:cobalt ;
+    dpp:massPercentage "8.4"^^xsd:decimal ;
+    dpp:recycledContentPercentage "20"^^xsd:decimal ;
+    dpp:originatesFrom dpp-res:facility-kolwezi-refinery ;
+    dpp:suppliedBy dpp-res:company-circular-cells .
+
+dpp-res:material-bat-00012-lithium a dpp:Material ;
+    dpp:materialType dpp-material:lithium ;
+    dpp:massPercentage "4.1"^^xsd:decimal ;
+    dpp:recycledContentPercentage "0"^^xsd:decimal ;
+    dpp:originatesFrom dpp-res:facility-atacama-processing ;
+    dpp:suppliedBy dpp-res:company-circular-cells .
+
+dpp-res:company-eco-devices a dpp:Manufacturer, org:Organization ;
+    dct:title "Eco Devices BV"@en .
+dpp-res:company-circular-cells a dpp:Supplier, org:Organization ;
+    dct:title "Circular Cells GmbH"@en .
+dpp-res:company-clearview-components a dpp:Supplier, org:Organization ;
+    dct:title "ClearView Components"@en .
+
+dpp-res:facility-eindhoven-assembly a dpp:Facility ; dct:title "Eindhoven Assembly"@en .
+dpp-res:facility-kolwezi-refinery a dpp:Facility ; dct:title "Kolwezi Refinery"@en .
+dpp-res:facility-atacama-processing a dpp:Facility ; dct:title "Atacama Processing"@en .
+
+dpp-res:assessment-cfx1-carbon a dpp:CarbonFootprintAssessment ;
+    dpp:carbonValue "42.6"^^xsd:decimal ;
+    dpp:quantityValue dpp-res:quantity-cfx1-carbon .
+dpp-res:quantity-cfx1-carbon a qudt:QuantityValue ;
+    qudt:numericValue "42.6"^^xsd:decimal ;
+    qudt:unit unit:KiloGM .
+
+dpp-res:assessment-bat-00012-carbon a dpp:CarbonFootprintAssessment ;
+    dpp:carbonValue "9.8"^^xsd:decimal ;
+    dpp:quantityValue dpp-res:quantity-bat-00012-carbon .
+dpp-res:quantity-bat-00012-carbon a qudt:QuantityValue ;
+    qudt:numericValue "9.8"^^xsd:decimal ;
+    qudt:unit unit:KiloGM .
+
+dpp-res:commitment-cfx1-support a dpp:SoftwareSupportCommitment ; dpp:softwareSupportYears 7 .
+dpp-res:instruction-cfx1-repair a dpp:RepairInstruction ; dct:title "CFX1 repair manual"@en .
+dpp-res:instruction-cfx1-recycle a dpp:RecyclingInstruction ; dct:title "CFX1 recycling guide"@en .
+dpp-res:instruction-bat-00012-recycle a dpp:RecyclingInstruction ;
+    dct:title "BAT-00012 end-of-life guide"@en .
+
+dpp-res:certificate-cert-0012 a dpp:Certificate ;
+    dpp:certificateIdentifier "CERT-0012" ;
+    dpp:certificateType "Recycled content verification" ;
+    dpp:issuedBy dpp-res:company-circular-certification ;
+    dpp:validFrom "2026-01-01"^^xsd:date ;
+    dpp:validUntil "2028-12-31"^^xsd:date ;
+    dpp:coversEntity dpp-res:product-cfx1 ;
+    dpp:hasEvidence dpp-res:evidence-cert-0012 .
+dpp-res:company-circular-certification a dpp:CertificationBody, org:Organization ;
+    dct:title "Circular Certification Europe"@en .
+dpp-res:evidence-cert-0012 a dpp:EvidenceDocument ;
+    dct:title "Certificate CERT-0012"@en ;
+    dct:identifier "EVIDENCE-CERT-0012" .
+
+dpp-res:provenance-cfx1-record a dpp:ProvenanceRecord ;
+    dpp:sourceSystem "portfolio-seed" ;
+    dpp:confidenceScore "1.0"^^xsd:decimal ;
+    dpp:generatedBy dpp-res:activity-import-001 ;
+    dpp:hasEvidence dpp-res:evidence-cfx1-specification ;
+    prov:generatedAtTime "2026-08-04T17:00:00Z"^^xsd:dateTime .
+dpp-res:provenance-bat-00012-record a dpp:ProvenanceRecord ;
+    dpp:sourceSystem "supplier-demo" ;
+    dpp:confidenceScore "0.95"^^xsd:decimal ;
+    dpp:generatedBy dpp-res:activity-import-001 .
+dpp-res:activity-import-001 a dpp:ImportActivity .
+dpp-res:evidence-cfx1-specification a dpp:EvidenceDocument ;
+    dct:title "CFX1 manufacturer specification"@en ;
+    dct:identifier "EVIDENCE-CFX1-001" .

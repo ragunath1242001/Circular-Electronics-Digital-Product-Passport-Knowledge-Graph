@@ -1,0 +1,8 @@
+PREFIX dpp: <https://example.org/dpp/>
+
+SELECT ?product ?battery WHERE {
+  GRAPH ?graph {
+    ?product a dpp:Smartphone ; dpp:containsComponent ?battery .
+    ?battery a dpp:Battery ; dpp:isUserReplaceable true .
+  }
+}

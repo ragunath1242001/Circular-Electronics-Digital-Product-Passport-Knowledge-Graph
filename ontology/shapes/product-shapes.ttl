@@ -1,0 +1,24 @@
+@prefix dpp: <https://example.org/dpp/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dpp:ProductShape a sh:NodeShape ;
+    sh:targetClass dpp:Product ;
+    sh:closed false ;
+    sh:property [
+        sh:path dpp:productIdentifier ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:severity sh:Violation ;
+        sh:message "A product must have exactly one string product identifier."@en
+    ] ;
+    sh:property [
+        sh:path dpp:hasPassport ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class dpp:DigitalProductPassport ;
+        sh:severity sh:Violation ;
+        sh:message "A product must have exactly one digital product passport."@en
+    ] .
+

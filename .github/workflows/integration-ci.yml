@@ -1,0 +1,25 @@
+name: Integration CI
+
+on:
+  push:
+    paths: ["backend/**", "frontend/**", "infrastructure/**", "docker-compose.yml", "tests/performance/**", ".github/workflows/integration-ci.yml"]
+  pull_request:
+    paths: ["backend/**", "frontend/**", "infrastructure/**", "docker-compose.yml", "tests/performance/**", ".github/workflows/integration-ci.yml"]
+
+jobs:
+  live-stack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: cp .env.example .env
+      - run: docker compose up -d --build --wait --wait-timeout 180
+      - run: python -m pip install -e "backend[dev]"
+      - run: pwsh infrastructure/scripts/demo.ps1
+      - run: DPP_RUN_LIVE_TESTS=1 python -m pytest tests/performance -q
+      - run: pwsh infrastructure/scripts/backup.ps1 -OutputDirectory backups/ci
+      - run: pwsh infrastructure/scripts/restore.ps1 -BackupDirectory backups/ci -Force
+      - if: always()
+        run: docker compose down --volumes

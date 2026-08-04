@@ -1,0 +1,58 @@
+@prefix dpp: <https://example.org/dpp/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dpp:SmartphoneShape a sh:NodeShape ;
+    sh:targetClass dpp:Smartphone ;
+    sh:property [
+        sh:path rdf:type ; sh:hasValue dpp:ProductModel ;
+        sh:severity sh:Violation ; sh:message "A smartphone passport must describe a product model."@en
+    ] ;
+    sh:property [
+        sh:path dpp:manufacturedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class dpp:Manufacturer ;
+        sh:severity sh:Violation ; sh:message "A smartphone must have exactly one manufacturer."@en
+    ] ;
+    sh:property [
+        sh:path dpp:containsComponent ;
+        sh:qualifiedValueShape [ sh:class dpp:Battery ] ; sh:qualifiedMinCount 1 ;
+        sh:severity sh:Violation ; sh:message "A smartphone must contain a battery."@en
+    ] ;
+    sh:property [
+        sh:path dpp:containsComponent ;
+        sh:qualifiedValueShape [ sh:class dpp:Display ] ; sh:qualifiedMinCount 1 ;
+        sh:severity sh:Violation ; sh:message "A smartphone must contain a display."@en
+    ] ;
+    sh:property [
+        sh:path dpp:manufacturingDate ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
+        sh:severity sh:Violation ; sh:message "A smartphone must have one manufacturing date."@en
+    ] ;
+    sh:property [
+        sh:path dpp:hasLifecycleStatus ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:severity sh:Violation ; sh:message "A smartphone must have one lifecycle status."@en
+    ] ;
+    sh:property [
+        sh:path dpp:repairabilityScore ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ; sh:maxInclusive 10 ; sh:severity sh:Violation ;
+        sh:message "Repairability score must be between 0 and 10."@en
+    ] ;
+    sh:property [
+        sh:path dpp:hasSoftwareSupportCommitment ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:severity sh:Violation ; sh:message "A smartphone must have one software-support commitment."@en
+    ] ;
+    sh:property [
+        sh:path dpp:hasRecyclingInstruction ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:severity sh:Violation ; sh:message "A smartphone must have one recycling instruction."@en
+    ] ;
+    sh:property [
+        sh:path dpp:hasCarbonFootprint ; sh:minCount 1 ; sh:maxCount 1 ;
+        sh:severity sh:Violation ; sh:message "A smartphone must have one carbon-footprint assessment."@en
+    ] .
+
+dpp:SoftwareSupportShape a sh:NodeShape ;
+    sh:targetClass dpp:SoftwareSupportCommitment ;
+    sh:property [
+        sh:path dpp:softwareSupportYears ; sh:minCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 5 ;
+        sh:severity sh:Warning ; sh:message "Software support below five years requires review."@en
+    ] .
+

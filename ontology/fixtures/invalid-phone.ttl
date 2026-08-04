@@ -1,0 +1,69 @@
+@prefix dpp: <https://example.org/dpp/> .
+@prefix dpp-material: <https://example.org/dpp/material/> .
+@prefix dpp-res: <https://example.org/dpp/resource/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dpp-res:product-invalid-01 a dpp:Smartphone, dpp:ProductModel ;
+    dpp:productIdentifier "INVALID-01" ;
+    dpp:manufacturedBy dpp-res:company-invalid-maker ;
+    dpp:manufacturingDate "2026-05-01"^^xsd:date ;
+    dpp:containsComponent dpp-res:battery-invalid-01, dpp-res:display-invalid-01 ;
+    dpp:hasPassport dpp-res:passport-invalid-01 ;
+    dpp:hasCertificate dpp-res:certificate-invalid-01 ;
+    dpp:hasCarbonFootprint dpp-res:assessment-invalid-phone-carbon ;
+    dpp:hasRecyclingInstruction dpp-res:instruction-invalid-phone-recycle ;
+    dpp:hasSoftwareSupportCommitment dpp-res:commitment-invalid-support ;
+    dpp:hasLifecycleStatus dpp:Active ;
+    dpp:repairabilityScore "12"^^xsd:decimal .
+
+dpp-res:passport-invalid-01 a dpp:DigitalProductPassport ;
+    dpp:describesProduct dpp-res:product-invalid-01 ;
+    dpp:version "1.0.0" .
+dpp-res:company-invalid-maker a dpp:Manufacturer ; dct:title "Invalid Devices"@en .
+dpp-res:display-invalid-01 a dpp:Display ; dpp:productIdentifier "DISPLAY-INVALID-01" .
+dpp-res:commitment-invalid-support a dpp:SoftwareSupportCommitment ;
+    dpp:softwareSupportYears 3 .
+dpp-res:instruction-invalid-phone-recycle a dpp:RecyclingInstruction .
+
+dpp-res:battery-invalid-01 a dpp:Battery ;
+    dpp:productIdentifier "BAT-INVALID-01" ;
+    dpp:chemistry "NMC" ;
+    dpp:batteryCapacity "4000"^^xsd:decimal ;
+    dpp:batteryCycleEndurance 200 ;
+    dpp:isUserReplaceable false ;
+    dpp:suppliedBy dpp-res:company-invalid-supplier ;
+    dpp:containsMaterial dpp-res:material-invalid-cobalt ;
+    dpp:quantityValue dpp-res:quantity-invalid-capacity ;
+    dpp:hasCarbonFootprint dpp-res:assessment-invalid-battery-carbon ;
+    dpp:hasRecyclingInstruction dpp-res:instruction-invalid-battery-recycle ;
+    dpp:hasProvenance dpp-res:provenance-invalid-battery .
+dpp-res:company-invalid-supplier a dpp:Supplier .
+dpp-res:quantity-invalid-capacity a qudt:QuantityValue ;
+    qudt:numericValue "4000"^^xsd:decimal ; qudt:unit unit:MilliA-HR .
+dpp-res:material-invalid-cobalt a dpp:Material ;
+    dpp:materialType dpp-material:cobalt ; dpp:massPercentage "9"^^xsd:decimal .
+dpp-res:instruction-invalid-battery-recycle a dpp:RecyclingInstruction .
+dpp-res:provenance-invalid-battery a dpp:ProvenanceRecord ; dpp:sourceSystem "invalid-fixture" .
+
+dpp-res:assessment-invalid-phone-carbon a dpp:CarbonFootprintAssessment ;
+    dpp:carbonValue "80"^^xsd:decimal ; dpp:quantityValue dpp-res:quantity-invalid-phone-carbon .
+dpp-res:quantity-invalid-phone-carbon a qudt:QuantityValue ;
+    qudt:numericValue "80"^^xsd:decimal ; qudt:unit unit:KiloGM .
+dpp-res:assessment-invalid-battery-carbon a dpp:CarbonFootprintAssessment ;
+    dpp:carbonValue "18"^^xsd:decimal ; dpp:quantityValue dpp-res:quantity-invalid-battery-carbon .
+dpp-res:quantity-invalid-battery-carbon a qudt:QuantityValue ;
+    qudt:numericValue "18"^^xsd:decimal ; qudt:unit unit:KiloGM .
+
+dpp-res:certificate-invalid-01 a dpp:Certificate ;
+    dpp:certificateIdentifier "CERT-INVALID-01" ;
+    dpp:certificateType "Battery conformity" ;
+    dpp:issuedBy dpp-res:company-invalid-certifier ;
+    dpp:validFrom "2027-12-31"^^xsd:date ;
+    dpp:validUntil "2026-01-01"^^xsd:date ;
+    dpp:coversEntity dpp-res:product-invalid-01 ;
+    dpp:evidenceUrl "https://example.org/evidence/invalid-01"^^xsd:anyURI .
+dpp-res:company-invalid-certifier a dpp:CertificationBody .
+

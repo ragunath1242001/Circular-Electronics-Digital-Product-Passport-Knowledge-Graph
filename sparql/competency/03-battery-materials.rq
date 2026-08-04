@@ -1,0 +1,11 @@
+PREFIX dpp: <https://example.org/dpp/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?battery ?material ?materialName ?massPercentage WHERE {
+  GRAPH ?graph {
+    ?battery a dpp:Battery ; dpp:containsMaterial ?material .
+    ?material dpp:materialType ?materialType .
+    OPTIONAL { ?material dpp:massPercentage ?massPercentage }
+    OPTIONAL { ?materialType skos:prefLabel ?materialName }
+  }
+}

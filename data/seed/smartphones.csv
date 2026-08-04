@@ -1,0 +1,5 @@
+product_identifier,product_name,model_number,manufacturer_name,manufacturing_date,repairability_score,software_support_years,carbon_kg_co2e,battery_identifier,battery_chemistry,battery_capacity_mah,battery_cycle_endurance,battery_user_replaceable,battery_carbon_kg_co2e,display_identifier,supplier_name,material_name,material_origin,recycled_content_percentage
+CFX2,Circular Two,CFX2-EU,Eco Devices BV,2026-06-15,8.5,7,39.4,BAT-00022,NMC 811,4800,1200,true,8.7,DISPLAY-00022,Circular Cells GmbH,Cobalt,Kolwezi Refinery,25
+RFX1,Repair First,RFX1-EU,Repairable Mobile GmbH,2026-05-20,9.1,6,35.2,BAT-00031,LFP,5000,900,true,7.2,DISPLAY-00031,Longlife Batteries SA,Lithium,Atacama Processing,15
+BAD1,Invalid Score,BAD1-EU,Example Devices,2026-04-10,12,5,60.0,BAT-00999,NMC,4000,700,false,15.0,DISPLAY-00999,Example Supplier,Cobalt,Unknown Refinery,0
+

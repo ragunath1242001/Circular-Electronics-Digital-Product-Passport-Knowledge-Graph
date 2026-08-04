@@ -1,0 +1,9 @@
+PREFIX dpp: <https://example.org/dpp/>
+
+SELECT DISTINCT ?passport ?product ?version ?ontologyVersion WHERE {
+  GRAPH ?graph {
+    ?passport a dpp:DigitalProductPassport ; dpp:describesProduct ?product ;
+      dpp:version ?version ; dpp:ontologyVersion ?ontologyVersion .
+  }
+}
+ORDER BY ?product DESC(?version)
