@@ -1,0 +1,12 @@
+{
+  "detector_version": "1.0.0",
+  "unknown_term_min_occurrences": 1,
+  "deprecated_term_min_occurrences": 1,
+  "legacy_version_share_threshold": 0.15,
+  "version_increase_periods": 3,
+  "custom_term_share_threshold": 0.005,
+  "custom_growth_delta": 0.005,
+  "custom_growth_periods": 3,
+  "fragmentation_threshold": 0.10,
+  "mapping_gap_min_occurrences": 50
+}

@@ -7,11 +7,13 @@ from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 
 from app.core.config import get_settings
-from app.schemas.ingestion import IngestionError, IngestionJob, JobStatus
+from app.schemas.ingestion import IngestionError, IngestionJob, JobStatus, SemanticDocumentEnvelope
 
-SCHEMA_SQL = (
-    Path(__file__).resolve().parents[2] / "migrations" / "002_ingestion.sql"
-).read_text(encoding="utf-8")
+MIGRATIONS = Path(__file__).resolve().parents[2] / "migrations"
+SCHEMA_SQL = "\n".join(
+    (MIGRATIONS / name).read_text(encoding="utf-8")
+    for name in ("002_ingestion.sql", "005_semantic_documents.sql")
+)
 JOB_COLUMNS = """
 id, source_system, file_name, data_format, mapping_version, status,
 total_records, imported_records, duplicate_records, quarantined_records,
@@ -121,6 +123,54 @@ def save_ingested_record(
         )
 
 
+def load_semantic_document_keys() -> tuple[set[str], set[str]]:
+    with _connect() as connection:
+        rows = connection.execute(
+            "SELECT document_id, document_hash FROM dpp_documents"
+        ).fetchall()
+    return (
+        {str(row["document_id"]) for row in rows},
+        {str(row["document_hash"]) for row in rows},
+    )
+
+
+def save_semantic_documents(
+    job_id: UUID,
+    source_system: str,
+    documents: list[tuple[SemanticDocumentEnvelope, str]],
+) -> None:
+    if not documents:
+        return
+    with _connect() as connection:
+        with connection.cursor() as cursor:
+            cursor.executemany(
+                """
+                INSERT INTO dpp_documents (
+                    id, document_id, job_id, source_system, external_identifier,
+                    organisation_id, domain, semantic_profile_id,
+                    declared_ontology_version, document_hash, graph_uri
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT DO NOTHING
+                """,
+                [
+                    (
+                        uuid4(),
+                        document.document_id,
+                        job_id,
+                        source_system,
+                        document.external_identifier,
+                        document.organisation_id,
+                        document.domain,
+                        document.semantic_profile_id,
+                        document.declared_ontology_version,
+                        document.document_hash,
+                        graph_uri,
+                    )
+                    for document, graph_uri in documents
+                ],
+            )
+
+
 def save_ingestion_error(
     job_id: UUID,
     record_number: int,
@@ -169,4 +219,3 @@ def list_ingestion_errors(job_id: UUID) -> list[IngestionError]:
             (job_id,),
         ).fetchall()
     return [IngestionError.model_validate(row) for row in rows]
-

@@ -30,6 +30,21 @@ def put_graph(graph_data: bytes, graph_uri: str) -> None:
         raise GraphStoreError(f"Fuseki graph persistence failed: {exc.reason}") from exc
 
 
+def post_dataset(graph_data: bytes) -> None:
+    request = Request(
+        f"{get_settings().fuseki_url.rstrip('/')}/data",
+        data=graph_data,
+        method="POST",
+        headers={"Content-Type": "application/trig"},
+    )
+    try:
+        with urlopen(request, timeout=30) as response:
+            if response.status not in {200, 201, 204}:
+                raise GraphStoreError(f"Fuseki returned HTTP {response.status}")
+    except (HTTPError, URLError) as exc:
+        raise GraphStoreError(f"Fuseki dataset persistence failed: {exc.reason}") from exc
+
+
 def get_graph(graph_uri: str) -> bytes:
     request = Request(_url(graph_uri), headers={"Accept": "text/turtle"})
     try:

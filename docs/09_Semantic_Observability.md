@@ -33,3 +33,20 @@ usage, ontology-version distribution, and supplier completeness.
 
 Passports minted before Phase 7 appear as `Unrecorded` in the ontology-version
 distribution until a new passport version is created.
+
+## Observatory raw signals
+
+The Observatory collector records raw facts for stored JSONL documents without
+calculating metrics:
+
+- RDF class, property, and namespace usage;
+- declared product-ontology version;
+- standard, approved-external, custom, unknown, and deprecated term classes;
+- approved mapping use and missing mappings.
+
+Collection is resumable and stores counts, not RDF payload values.
+
+```text
+POST /api/v1/signals/documents?limit=100
+GET  /api/v1/signals/summary
+```

@@ -84,4 +84,32 @@ describe("Phase 5 workspace", () => {
       expect.stringContaining("manufacturer=Eco+Devices+BV"),
     ));
   });
+
+  it("renders the semantic observatory from canonical APIs", async () => {
+    sessionStorage.setItem("dpp-demo-user", "manufacturer@example.com");
+    window.location.hash = "overview";
+    vi.stubGlobal("fetch", vi.fn().mockImplementation(async (request: string) => {
+      let body: unknown = [];
+      if (request.includes("ecosystem/summary")) body = {
+        documents: 10_000,
+        organisations: 20,
+        domains: { electronics: 7000, battery: 3000 },
+        ontology_versions: { "2.0.0": 8000, "1.0.0": 2000 },
+        main_metrics: {
+          "MET-001": 0.8, "MET-002": 0.9, "MET-005": 0.75, "MET-008": 0.6,
+        },
+      };
+      if (request.includes("signals/summary")) body = {
+        occurrences: 1000,
+        by_category: { standard: 900, custom: 100 },
+      };
+      return { ok: true, json: async () => body };
+    }));
+
+    render(<App />);
+
+    expect(await screen.findByRole("heading", { name: "Ecosystem overview" })).toBeVisible();
+    expect(screen.getByText("10K")).toBeVisible();
+    expect(screen.getByRole("link", { name: "Ontology adoption" })).toBeVisible();
+  });
 });

@@ -1,7 +1,8 @@
 # Digital Product Passport ontology
 
-Version 1.0.0 defines the Phase 1 vocabulary for circular smartphones and
-embedded batteries under `https://example.org/dpp/`.
+The registry defines the circular-smartphone vocabulary under
+`https://example.org/dpp/`. The products module is current at 2.0.0; unchanged
+supporting modules remain at 1.0.0.
 
 | Module | Responsibility |
 | --- | --- |
@@ -22,3 +23,12 @@ backend/.venv/Scripts/python scripts/validate_ontology.py
 
 SHACL constraints are in `shapes/`; see `docs/05_SHACL_Validation.md` for the
 rules, severity policy, and validation API.
+
+`registry.json` declares the current ontology packages, electronics and battery
+SHACL profiles, accepted external namespaces, and semantic mappings exposed by
+the backend registry API. RDF remains the source of truth for ontology identity,
+versions, labels, term kinds, and deprecation status.
+
+Products 1.0.0 and 1.1.0 are preserved under `history/products/`. Products 2.0.0
+replaces deprecated `dpp:chemistry` with `dpp:batteryChemistry`; the approved
+equivalence mapping remains queryable for migration and drift analysis.

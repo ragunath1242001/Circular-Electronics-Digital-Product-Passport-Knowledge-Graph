@@ -1,0 +1,33 @@
+@prefix dpp: <https://example.org/dpp/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/dpp/ontology/products>
+    a owl:Ontology ;
+    owl:imports <https://example.org/dpp/ontology/core> ;
+    owl:priorVersion <https://example.org/dpp/ontology/products/1.0.0> ;
+    owl:versionIRI <https://example.org/dpp/ontology/products/1.1.0> ;
+    owl:versionInfo "1.1.0" ;
+    dct:title "DPP Electronics Product Ontology"@en .
+
+dpp:ElectronicProduct a owl:Class ; rdfs:subClassOf dpp:Product ; rdfs:label "Electronic product"@en .
+dpp:Smartphone a owl:Class ; rdfs:subClassOf dpp:ElectronicProduct ; rdfs:label "Smartphone"@en .
+dpp:Battery a owl:Class ; rdfs:subClassOf dpp:Component ; rdfs:label "Battery"@en .
+dpp:Display a owl:Class ; rdfs:subClassOf dpp:Component ; rdfs:label "Display"@en .
+dpp:PrintedCircuitBoard a owl:Class ; rdfs:subClassOf dpp:Component ; rdfs:label "Printed circuit board"@en .
+dpp:CameraModule a owl:Class ; rdfs:subClassOf dpp:Component ; rdfs:label "Camera module"@en .
+dpp:Chassis a owl:Class ; rdfs:subClassOf dpp:Component ; rdfs:label "Chassis"@en .
+dpp:Charger a owl:Class ; rdfs:subClassOf dpp:Component ; rdfs:label "Charger"@en .
+
+dpp:chemistry a owl:DatatypeProperty ;
+    owl:deprecated true ; owl:equivalentProperty dpp:batteryChemistry ;
+    dct:isReplacedBy dpp:batteryChemistry ;
+    rdfs:domain dpp:Battery ; rdfs:range xsd:string ; rdfs:label "chemistry (deprecated)"@en .
+dpp:batteryChemistry a owl:DatatypeProperty ;
+    rdfs:domain dpp:Battery ; rdfs:range xsd:string ; rdfs:label "battery chemistry"@en .
+dpp:batteryCapacity a owl:DatatypeProperty ; rdfs:domain dpp:Battery ; rdfs:range xsd:decimal ; rdfs:label "battery capacity"@en .
+dpp:batteryCycleEndurance a owl:DatatypeProperty ; rdfs:domain dpp:Battery ; rdfs:range xsd:integer ; rdfs:label "battery cycle endurance"@en .
+dpp:isUserReplaceable a owl:DatatypeProperty ; rdfs:domain dpp:Battery ; rdfs:range xsd:boolean ; rdfs:label "is user replaceable"@en .
+dpp:sparePartsAvailableUntil a owl:DatatypeProperty ; rdfs:range xsd:date ; rdfs:label "spare parts available until"@en .

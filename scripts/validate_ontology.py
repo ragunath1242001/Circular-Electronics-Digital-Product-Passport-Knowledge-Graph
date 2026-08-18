@@ -33,6 +33,7 @@ REQUIRED_PROPERTIES = {
     DPP.hasProvenance,
     DPP.productIdentifier,
     DPP.repairabilityScore,
+    DPP.batteryChemistry,
     DPP.isUserReplaceable,
 }
 BUSINESS_CLASSES = REQUIRED_CLASSES | {DPP.EconomicOperator, DPP.EvidenceDocument}

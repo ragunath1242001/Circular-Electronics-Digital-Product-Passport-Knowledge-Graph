@@ -2,9 +2,9 @@ name: Backend CI
 
 on:
   push:
-    paths: ["backend/**", "ontology/**", "data/**", "mappings/**", "sparql/**", "scripts/**", "tests/semantic/**", ".github/workflows/backend-ci.yml"]
+    paths: ["backend/**", "ontology/**", "data/**", "mappings/**", "sparql/**", "scripts/**", "tests/semantic/**", "tests/synthetic/**", ".github/workflows/backend-ci.yml"]
   pull_request:
-    paths: ["backend/**", "ontology/**", "data/**", "mappings/**", "sparql/**", "scripts/**", "tests/semantic/**", ".github/workflows/backend-ci.yml"]
+    paths: ["backend/**", "ontology/**", "data/**", "mappings/**", "sparql/**", "scripts/**", "tests/semantic/**", "tests/synthetic/**", ".github/workflows/backend-ci.yml"]
 
 jobs:
   test:
@@ -19,8 +19,10 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: python -m pip install -e ".[dev]"
-      - run: ruff check . ../scripts ../tests/semantic
-      - run: mypy app ../scripts ../tests/semantic
+      - run: ruff check . ../scripts ../tests/semantic ../tests/synthetic
+      - run: mypy app ../scripts ../tests/semantic ../tests/synthetic
       - run: pytest
       - run: python -m pytest tests/semantic
+        working-directory: .
+      - run: python -m pytest tests/synthetic
         working-directory: .

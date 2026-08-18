@@ -7,6 +7,7 @@ WORKDIR /app
 COPY backend/pyproject.toml ./
 COPY backend/app ./app
 COPY backend/migrations ./migrations
+COPY data/detectors.json /data/detectors.json
 COPY ontology /ontology
 COPY sparql /sparql
 RUN pip install --no-cache-dir .

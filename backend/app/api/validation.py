@@ -4,9 +4,24 @@ from uuid import UUID
 import psycopg
 from fastapi import APIRouter, HTTPException, Query, status
 
-from app.db.validation_runs import get_validation_run, list_validation_runs, save_validation_run
-from app.schemas.validation import ValidationReport, ValidationRequest
-from app.services.validation_service import InvalidRdfError, validate_data
+from app.db.validation_runs import (
+    get_validation_run,
+    get_validation_summary,
+    list_validation_runs,
+    save_validation_run,
+)
+from app.schemas.validation import (
+    ValidationBatch,
+    ValidationReport,
+    ValidationRequest,
+    ValidationSummary,
+)
+from app.services.graph_store import GraphStoreError
+from app.services.validation_service import (
+    InvalidRdfError,
+    validate_data,
+    validate_pending_documents,
+)
 
 router = APIRouter(prefix="/api/v1/validation", tags=["validation"])
 logger = logging.getLogger(__name__)
@@ -49,3 +64,22 @@ def get_validation_run_by_id(run_id: UUID) -> ValidationReport:
     if report is None:
         raise HTTPException(status_code=404, detail="Validation report not found.")
     return report
+
+
+@router.post("/documents", response_model=ValidationBatch)
+def validate_documents(limit: int = Query(default=100, ge=1, le=1_000)) -> ValidationBatch:
+    try:
+        return validate_pending_documents(limit)
+    except (InvalidRdfError, ValueError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except (psycopg.Error, GraphStoreError) as exc:
+        logger.exception("semantic_validation_failed")
+        raise HTTPException(status_code=503, detail="Semantic validation is unavailable.") from exc
+
+
+@router.get("/summary", response_model=ValidationSummary)
+def validation_summary() -> ValidationSummary:
+    try:
+        return get_validation_summary()
+    except psycopg.Error as exc:
+        raise HTTPException(status_code=503, detail="Validation summary is unavailable.") from exc

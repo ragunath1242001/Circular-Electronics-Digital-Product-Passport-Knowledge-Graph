@@ -1,0 +1,119 @@
+{
+  "ontologies": [
+    {
+      "id": "core",
+      "namespaces": ["https://example.org/dpp/"],
+      "versions": [{"path": "core/dpp-core.ttl", "status": "current"}]
+    },
+    {
+      "id": "products",
+      "namespaces": ["https://example.org/dpp/"],
+      "versions": [
+        {
+          "path": "history/products/dpp-products-1.0.0.ttl",
+          "status": "deprecated"
+        },
+        {
+          "path": "history/products/dpp-products-1.1.0.ttl",
+          "status": "deprecated"
+        },
+        {"path": "core/dpp-products.ttl", "status": "current"}
+      ]
+    },
+    {
+      "id": "organizations",
+      "namespaces": ["https://example.org/dpp/"],
+      "versions": [{"path": "core/dpp-organizations.ttl", "status": "current"}]
+    },
+    {
+      "id": "materials",
+      "namespaces": [
+        "https://example.org/dpp/",
+        "https://example.org/dpp/material/"
+      ],
+      "versions": [{"path": "core/dpp-materials.ttl", "status": "current"}]
+    },
+    {
+      "id": "provenance",
+      "namespaces": ["https://example.org/dpp/"],
+      "versions": [{"path": "core/dpp-provenance.ttl", "status": "current"}]
+    },
+    {
+      "id": "units",
+      "namespaces": ["https://example.org/dpp/"],
+      "versions": [{"path": "core/dpp-units.ttl", "status": "current"}]
+    },
+    {
+      "id": "certificates",
+      "namespaces": ["https://example.org/dpp/"],
+      "versions": [{"path": "core/dpp-certificates.ttl", "status": "current"}]
+    }
+  ],
+  "profiles": [
+    {
+      "id": "electronics-2.0",
+      "domain": "electronics",
+      "ontology_versions": {
+        "core": "1.0.0",
+        "products": "2.0.0",
+        "organizations": "1.0.0",
+        "materials": "1.0.0",
+        "provenance": "1.0.0",
+        "units": "1.0.0",
+        "certificates": "1.0.0"
+      },
+      "shape_paths": [
+        "shapes/product-shapes.ttl",
+        "shapes/smartphone-shapes.ttl",
+        "shapes/certificate-shapes.ttl"
+      ],
+      "accepted_namespaces": [
+        "http://purl.org/dc/terms/",
+        "http://www.w3.org/ns/org#",
+        "http://www.w3.org/ns/prov#",
+        "http://qudt.org/schema/qudt/",
+        "http://qudt.org/vocab/unit/"
+      ],
+      "status": "current"
+    },
+    {
+      "id": "battery-2.0",
+      "domain": "battery",
+      "ontology_versions": {
+        "core": "1.0.0",
+        "products": "2.0.0",
+        "organizations": "1.0.0",
+        "materials": "1.0.0",
+        "provenance": "1.0.0",
+        "units": "1.0.0",
+        "certificates": "1.0.0"
+      },
+      "shape_paths": [
+        "shapes/product-shapes.ttl",
+        "shapes/battery-shapes.ttl",
+        "shapes/certificate-shapes.ttl"
+      ],
+      "accepted_namespaces": [
+        "http://purl.org/dc/terms/",
+        "http://www.w3.org/ns/org#",
+        "http://www.w3.org/ns/prov#",
+        "http://qudt.org/schema/qudt/",
+        "http://qudt.org/vocab/unit/"
+      ],
+      "status": "current"
+    }
+  ],
+  "mappings": [
+    {
+      "mapping_id": "products-chemistry-2.0",
+      "source_iri": "https://example.org/dpp/chemistry",
+      "target_iri": "https://example.org/dpp/batteryChemistry",
+      "relation": "owl:equivalentProperty",
+      "mapping_set": "products",
+      "mapping_version": "2.0.0",
+      "status": "approved",
+      "provenance": "https://example.org/dpp/ontology/products/2.0.0",
+      "created_at": "2026-08-14T00:00:00Z"
+    }
+  ]
+}

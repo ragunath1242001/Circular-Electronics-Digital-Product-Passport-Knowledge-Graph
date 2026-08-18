@@ -2,6 +2,7 @@ import { type FormEvent, lazy, Suspense, useEffect, useState } from "react";
 import { api, apiBaseUrl } from "./api";
 import Observability from "./Observability";
 import Reports from "./Reports";
+import SemanticObservatory from "./SemanticObservatory";
 
 const GraphWorkbench = lazy(() => import("./GraphWorkbench"));
 
@@ -275,7 +276,7 @@ function IngestionPage() {
   return <><section className="page-heading"><div><p className="eyebrow">Data operations</p><h1>Ingestion</h1><p>Map CSV or JSON product records into validated passport graphs.</p></div></section><section className="ingestion-grid"><form className="panel upload-card" onSubmit={submit}><p className="eyebrow">New import</p><h2>Upload source data</h2><label>Source system<input value={source} pattern="[A-Za-z0-9._-]+" onChange={(event) => setSource(event.target.value)} required /></label><label className="file-drop"><span>{file ? file.name : "Choose a CSV or JSON file"}</span><small>UTF-8 · maximum 2 MB</small><input type="file" accept=".csv,.json,text/csv,application/json" onChange={(event) => setFile(event.target.files?.[0])} required /></label><button className="primary" disabled={busy}>{busy ? "Processing…" : "Start ingestion"}</button>{message && <p className="notice success" role="status">{message}</p>}{error && <ErrorNotice message={error} />}</form><article className="panel process-card"><p className="eyebrow">Pipeline</p><h2>From source to graph</h2>{["Validate source fields", "Map ontology terms", "Generate stable URIs", "Run SHACL checks", "Persist named graph"].map((step, index) => <div className="process-step" key={step}><span>{index + 1}</span><p>{step}</p></div>)}</article></section><section className="panel table-panel"><div className="panel-title"><h2>Import history</h2><button className="text-button" onClick={() => refresh().catch((reason: Error) => setError(reason.message))}>Refresh</button></div>{!jobs ? <Loading label="Loading import history" /> : jobs.length ? <div className="table-wrap"><table><thead><tr><th>File</th><th>Status</th><th>Imported</th><th>Duplicates</th><th>Isolated</th><th>Date</th></tr></thead><tbody>{jobs.map((job) => <tr key={job.id}><td><strong>{job.file_name}</strong><span>{job.source_system}</span></td><td><span className={`badge ${job.status.toLowerCase()}`}>{job.status.replaceAll("_", " ")}</span></td><td>{job.imported_records}</td><td>{job.duplicate_records}</td><td>{job.quarantined_records ? <button className="error-link" onClick={() => showErrors(job)}>{job.quarantined_records} view</button> : "0"}</td><td>{formatDate(job.created_at)}</td></tr>)}</tbody></table></div> : <p className="empty">No ingestion jobs yet.</p>}</section>{errors && <section className="panel error-panel"><div className="panel-title"><h2>Quarantined records</h2><button className="text-button" onClick={() => setErrors(undefined)}>Close</button></div>{errors.length ? errors.map((item) => <article key={item.id}><span>Row {item.record_number}</span><div><strong>{item.product_identifier || "Unknown product"} · {item.error_code}</strong><p>{item.message}</p></div></article>) : <p className="empty">This job has no quarantined records.</p>}</section>}</>;
 }
 
-const nav = [["dashboard", "Overview"], ["passports", "Passports"], ["validation", "Validation"], ["ingestion", "Ingestion"], ["graph", "Graph & SPARQL"], ["observability", "Observability"], ["reports", "Reports & governance"]];
+const nav = [["dashboard", "Portfolio"], ["overview", "Semantic observatory"], ["passports", "Passports"], ["validation", "Validation"], ["ingestion", "Ingestion"], ["graph", "Graph & SPARQL"], ["observability", "Product quality"], ["reports", "Reports & governance"]];
 
 export default function App() {
   const [user, setUser] = useState(() => sessionStorage.getItem("dpp-demo-user") || "");
@@ -285,6 +286,10 @@ export default function App() {
 
   if (!user) return <Login onLogin={(email) => { sessionStorage.setItem("dpp-demo-user", email); setUser(email); window.location.hash = "dashboard"; }} />;
   const section = route.split("/")[0];
+  const observatorySections = [
+    "overview", "ontology-adoption", "validation-intelligence",
+    "vocabulary-drift", "evidence", "organisations",
+  ];
   let content = <Dashboard />;
   if (route === "passports") content = <PassportList />;
   else if (route.startsWith("passports/")) content = <PassportDetail id={route.split("/")[1]} />;
@@ -293,6 +298,7 @@ export default function App() {
   else if (route === "graph") content = <GraphWorkbench />;
   else if (route === "observability") content = <Observability />;
   else if (route === "reports") content = <Reports />;
+  else if (observatorySections.includes(section)) content = <SemanticObservatory route={route} />;
 
   return <div className="app-shell"><aside><a className="wordmark" href="#dashboard">DPP / Graph</a><nav aria-label="Workspace navigation">{nav.map(([path, label], index) => <a key={path} className={section === path ? "active" : ""} href={`#${path}`}><span aria-hidden="true">0{index + 1}</span>{label}</a>)}</nav><div className="user-card"><span>{user.slice(0, 2).toUpperCase()}</span><div><strong>{user.split("@")[0]}</strong><small>Manufacturer</small></div><button aria-label="Sign out" onClick={() => { sessionStorage.removeItem("dpp-demo-user"); setUser(""); }}>↗</button></div></aside><main className="workspace"><header><div><span className="live-dot" />Graph services live</div><a href={`${apiBaseUrl}/docs`}>API docs ↗</a></header><div className="page-content"><Suspense fallback={<Loading />}>{content}</Suspense></div></main></div>;
 }

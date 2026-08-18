@@ -9,15 +9,21 @@ from fastapi import APIRouter, File, Form, HTTPException, Query, UploadFile, sta
 from app.db.ingestion import get_ingestion_job, list_ingestion_errors, list_ingestion_jobs
 from app.schemas.ingestion import IngestionError, IngestionJob
 from app.services.graph_store import GraphStoreError
-from app.services.ingestion_service import IngestionFormatError, run_ingestion
+from app.services.ingestion_service import (
+    IngestionFormatError,
+    run_ingestion,
+    run_semantic_ingestion,
+)
 
 router = APIRouter(prefix="/api/v1/ingestion", tags=["ingestion"])
 logger = logging.getLogger(__name__)
 MAX_UPLOAD_BYTES = 2_000_000
-FORMATS = {".csv": "csv", ".json": "json"}
+MAX_JSONL_UPLOAD_BYTES = 25_000_000
+FORMATS = {".csv": "csv", ".json": "json", ".jsonl": "jsonl"}
 CONTENT_TYPES = {
     "csv": {"text/csv", "application/csv", "application/octet-stream"},
     "json": {"application/json", "application/octet-stream"},
+    "jsonl": {"application/x-ndjson", "application/jsonl", "application/octet-stream"},
 }
 
 
@@ -32,21 +38,35 @@ def ingest_file(
     file_name = Path(file.filename or "upload").name
     data_format = FORMATS.get(Path(file_name).suffix.lower())
     if data_format is None:
-        raise HTTPException(status_code=415, detail="Only .csv and .json uploads are supported.")
+        raise HTTPException(
+            status_code=415,
+            detail="Only .csv, .json, and .jsonl uploads are supported.",
+        )
     if file.content_type not in CONTENT_TYPES[data_format]:
         raise HTTPException(
             status_code=415,
             detail=f"Invalid content type for {data_format} upload.",
         )
-    raw_content = file.file.read(MAX_UPLOAD_BYTES + 1)
-    if len(raw_content) > MAX_UPLOAD_BYTES:
-        raise HTTPException(status_code=413, detail="Upload exceeds the 2 MB limit.")
     try:
-        content = raw_content.decode("utf-8-sig")
-    except UnicodeDecodeError as exc:
-        raise HTTPException(status_code=422, detail="Upload must be UTF-8 encoded.") from exc
-    try:
-        job = run_ingestion(content, data_format, source_system, file_name)
+        if data_format == "jsonl":
+            file.file.seek(0, 2)
+            upload_size = file.file.tell()
+            file.file.seek(0)
+            if upload_size > MAX_JSONL_UPLOAD_BYTES:
+                raise HTTPException(status_code=413, detail="JSONL upload exceeds the 25 MB limit.")
+            job = run_semantic_ingestion(file.file, source_system, file_name)
+        else:
+            raw_content = file.file.read(MAX_UPLOAD_BYTES + 1)
+            if len(raw_content) > MAX_UPLOAD_BYTES:
+                raise HTTPException(status_code=413, detail="Upload exceeds the 2 MB limit.")
+            try:
+                content = raw_content.decode("utf-8-sig")
+            except UnicodeDecodeError as exc:
+                raise HTTPException(
+                    status_code=422,
+                    detail="Upload must be UTF-8 encoded.",
+                ) from exc
+            job = run_ingestion(content, data_format, source_system, file_name)
     except IngestionFormatError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except GraphStoreError as exc:

@@ -7,8 +7,9 @@
 <https://example.org/dpp/ontology/products>
     a owl:Ontology ;
     owl:imports <https://example.org/dpp/ontology/core> ;
-    owl:versionIRI <https://example.org/dpp/ontology/products/1.0.0> ;
-    owl:versionInfo "1.0.0" ;
+    owl:priorVersion <https://example.org/dpp/ontology/products/1.1.0> ;
+    owl:versionIRI <https://example.org/dpp/ontology/products/2.0.0> ;
+    owl:versionInfo "2.0.0" ;
     dct:title "DPP Electronics Product Ontology"@en .
 
 dpp:ElectronicProduct a owl:Class ; rdfs:subClassOf dpp:Product ; rdfs:label "Electronic product"@en .
@@ -20,9 +21,13 @@ dpp:CameraModule a owl:Class ; rdfs:subClassOf dpp:Component ; rdfs:label "Camer
 dpp:Chassis a owl:Class ; rdfs:subClassOf dpp:Component ; rdfs:label "Chassis"@en .
 dpp:Charger a owl:Class ; rdfs:subClassOf dpp:Component ; rdfs:label "Charger"@en .
 
-dpp:chemistry a owl:DatatypeProperty ; rdfs:domain dpp:Battery ; rdfs:range xsd:string ; rdfs:label "chemistry"@en .
+dpp:chemistry a owl:DatatypeProperty ;
+    owl:deprecated true ; owl:equivalentProperty dpp:batteryChemistry ;
+    dct:isReplacedBy dpp:batteryChemistry ;
+    rdfs:domain dpp:Battery ; rdfs:range xsd:string ; rdfs:label "chemistry (deprecated)"@en .
+dpp:batteryChemistry a owl:DatatypeProperty ;
+    rdfs:domain dpp:Battery ; rdfs:range xsd:string ; rdfs:label "battery chemistry"@en .
 dpp:batteryCapacity a owl:DatatypeProperty ; rdfs:domain dpp:Battery ; rdfs:range xsd:decimal ; rdfs:label "battery capacity"@en .
 dpp:batteryCycleEndurance a owl:DatatypeProperty ; rdfs:domain dpp:Battery ; rdfs:range xsd:integer ; rdfs:label "battery cycle endurance"@en .
 dpp:isUserReplaceable a owl:DatatypeProperty ; rdfs:domain dpp:Battery ; rdfs:range xsd:boolean ; rdfs:label "is user replaceable"@en .
 dpp:sparePartsAvailableUntil a owl:DatatypeProperty ; rdfs:range xsd:date ; rdfs:label "spare parts available until"@en .
-

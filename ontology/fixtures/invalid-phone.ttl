@@ -30,7 +30,7 @@ dpp-res:instruction-invalid-phone-recycle a dpp:RecyclingInstruction .
 
 dpp-res:battery-invalid-01 a dpp:Battery ;
     dpp:productIdentifier "BAT-INVALID-01" ;
-    dpp:chemistry "NMC" ;
+    dpp:batteryChemistry "NMC" ;
     dpp:batteryCapacity "4000"^^xsd:decimal ;
     dpp:batteryCycleEndurance 200 ;
     dpp:isUserReplaceable false ;
@@ -66,4 +66,3 @@ dpp-res:certificate-invalid-01 a dpp:Certificate ;
     dpp:coversEntity dpp-res:product-invalid-01 ;
     dpp:evidenceUrl "https://example.org/evidence/invalid-01"^^xsd:anyURI .
 dpp-res:company-invalid-certifier a dpp:CertificationBody .
-

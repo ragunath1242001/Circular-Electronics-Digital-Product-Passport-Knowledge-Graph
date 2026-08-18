@@ -13,7 +13,7 @@ PROV = Namespace("http://www.w3.org/ns/prov#")
 QUDT = Namespace("http://qudt.org/schema/qudt/")
 UNIT = Namespace("http://qudt.org/vocab/unit/")
 MAPPING_VERSION = "1.0.0"
-ONTOLOGY_VERSION = "1.0.0"
+ONTOLOGY_VERSION = "2.0.0"
 
 
 def _quantity(graph: Graph, node: URIRef, value: Decimal, unit: URIRef) -> None:
@@ -88,7 +88,7 @@ def record_to_graph(
 
     graph.add((battery, RDF.type, DPP.Battery))
     graph.add((battery, DPP.productIdentifier, Literal(record.battery_identifier)))
-    graph.add((battery, DPP.chemistry, Literal(record.battery_chemistry)))
+    graph.add((battery, DPP.batteryChemistry, Literal(record.battery_chemistry)))
     graph.add(
         (
             battery,

@@ -15,6 +15,7 @@ dist/
 *.log
 artifacts/
 backups/
+data/synthetic/generated/
 .DS_Store
 .idea/
 .vscode/

@@ -1,5 +1,8 @@
 # Circular Electronics Digital Product Passport
 
+The repository now contains the complete Semantic Observatory MVP roadmap
+(Phases 0–11) alongside the original DPP knowledge-graph platform.
+
 Phases 0–9 of the knowledge graph platform: a runnable application stack,
 versioned ontology, persisted SHACL validation, idempotent ingestion, and a
 versioned Product Passport API with responsive operations, a read-only SPARQL and graph
@@ -41,16 +44,36 @@ docker compose config --quiet
 
 backend/.venv/Scripts/python scripts/validate_ontology.py
 backend/.venv/Scripts/python -m pytest tests/semantic
+backend/.venv/Scripts/python -m pytest tests/synthetic
 backend/.venv/Scripts/python scripts/security_scan.py
 
 $env:DPP_RUN_LIVE_TESTS="1"
 backend/.venv/Scripts/python -m pytest tests/performance
 ```
 
+Generate the deterministic 10,000-document Observatory dataset with
+`backend/.venv/Scripts/python scripts/generate_synthetic.py`.
+Import it through `/api/v1/ingestion/files`, validate stored documents through
+`/api/v1/validation/documents`, and read aggregate SHACL telemetry from
+`/api/v1/validation/summary`.
+Collect raw semantic signals through `/api/v1/signals/documents` and inspect
+their totals at `/api/v1/signals/summary`.
+Calculate the documented Observatory metrics at `/api/v1/metrics`; each metric
+has an explain endpoint and supports organisation, domain, date, and time-bucket filters.
+Run deterministic drift detection through `/api/v1/incidents/detect` and inspect
+traceable findings through `/api/v1/incidents`.
+Generate reviewable evidence through `/api/v1/evidence/generate`, then use the
+Semantic Observatory workspace for ecosystem, ontology-adoption, validation,
+vocabulary/drift, evidence, and organisation views. Run the ground-truth and
+scalability evaluation with `./infrastructure/scripts/evaluate.ps1 -Start`.
+
 ## Scope
 
-This repository implements Phases 0–9 from
-[the implementation blueprint](Digital_Product_Passport_BLUEPRINT.md).
+Semantic Observatory Phases 0–11 are implemented. Phase 12 remains an optional
+future extension for AI-assisted clustering and external standard-hub adapters.
+
+The original DPP platform remains implemented as documented in
+`Digital_Product_Passport_BLUEPRINT.md`.
 
 Use `./infrastructure/scripts/reset-environment.ps1` to stop the stack and delete
 its local data after an explicit confirmation.

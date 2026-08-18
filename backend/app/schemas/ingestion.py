@@ -46,11 +46,22 @@ class SmartphoneRecord(BaseModel):
         return value
 
 
+class SemanticDocumentEnvelope(BaseModel):
+    document_id: str = Field(min_length=1, max_length=100, pattern=r"^[A-Za-z0-9._-]+$")
+    external_identifier: str = Field(min_length=1, max_length=200)
+    organisation_id: str = Field(min_length=1, max_length=100)
+    domain: Literal["electronics", "battery"]
+    semantic_profile_id: str = Field(min_length=1, max_length=100)
+    declared_ontology_version: str = Field(min_length=1, max_length=40)
+    document_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+    payload: dict[str, Any]
+
+
 class IngestionJob(BaseModel):
     id: UUID
     source_system: str
     file_name: str
-    data_format: Literal["csv", "json"]
+    data_format: Literal["csv", "json", "jsonl"]
     mapping_version: str
     status: JobStatus
     total_records: int = 0
@@ -71,4 +82,3 @@ class IngestionError(BaseModel):
     message: str
     raw_record: dict[str, Any]
     created_at: datetime
-

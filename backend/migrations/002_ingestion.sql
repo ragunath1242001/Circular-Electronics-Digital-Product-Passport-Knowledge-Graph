@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS ingestion_jobs (
     id UUID PRIMARY KEY,
     source_system TEXT NOT NULL,
     file_name TEXT NOT NULL,
-    data_format TEXT NOT NULL CHECK (data_format IN ('csv', 'json')),
+    data_format TEXT NOT NULL CHECK (data_format IN ('csv', 'json', 'jsonl')),
     mapping_version TEXT NOT NULL,
     status TEXT NOT NULL,
     total_records INTEGER NOT NULL DEFAULT 0,
@@ -37,4 +37,3 @@ CREATE TABLE IF NOT EXISTS ingested_records (
 
 CREATE INDEX IF NOT EXISTS ingestion_jobs_created_at_idx ON ingestion_jobs (created_at DESC);
 CREATE INDEX IF NOT EXISTS ingestion_errors_job_id_idx ON ingestion_errors (job_id);
-

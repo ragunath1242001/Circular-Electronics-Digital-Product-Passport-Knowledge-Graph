@@ -1,0 +1,16 @@
+{
+  "name": "observatory-mvp-v1",
+  "seed": 42,
+  "documents": 10000,
+  "organisations": 20,
+  "electronics_share": 0.7,
+  "legacy_version_share": 0.2,
+  "fault_rates": {
+    "unknown_term": 0.02,
+    "custom_term": 0.05,
+    "deprecated_term": 0.03,
+    "datatype_error": 0.04,
+    "missing_required": 0.06,
+    "mapping_gap": 0.1
+  }
+}

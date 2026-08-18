@@ -33,7 +33,7 @@ dpp-res:passport-cfx1-v1 a dpp:DigitalProductPassport ;
 
 dpp-res:battery-bat-00012 a dpp:Battery ;
     dpp:productIdentifier "BAT-00012" ;
-    dpp:chemistry "NMC 811" ;
+    dpp:batteryChemistry "NMC 811" ;
     dpp:batteryCapacity "4500"^^xsd:decimal ;
     dpp:batteryCycleEndurance 1000 ;
     dpp:isUserReplaceable true ;
