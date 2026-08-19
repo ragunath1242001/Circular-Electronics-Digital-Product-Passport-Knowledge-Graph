@@ -3,7 +3,7 @@
 The repository now contains the complete Semantic Observatory MVP roadmap
 (Phases 0–11) alongside the original DPP knowledge-graph platform.
 
-Phases 0–9 of the knowledge graph platform: a runnable application stack,
+The knowledge graph platform: a runnable application stack,
 versioned ontology, persisted SHACL validation, idempotent ingestion, and a
 versioned Product Passport API with responsive operations, a read-only SPARQL and graph
 workbench, semantic-quality dashboards, cited governance reports, and verified recovery tooling.
@@ -69,7 +69,7 @@ scalability evaluation with `./infrastructure/scripts/evaluate.ps1 -Start`.
 
 ## Scope
 
-Semantic Observatory Phases 0–11 are implemented. Phase 12 remains an optional
+Semantic Observatory tabs are implemented. An optional
 future extension for AI-assisted clustering and external standard-hub adapters.
 
 The original DPP platform remains implemented as documented in
