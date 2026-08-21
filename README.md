@@ -3,6 +3,8 @@
 A full-stack platform for creating, validating, publishing, and monitoring Digital Product Passports (DPPs) as standards-based knowledge graphs.
 
 The project combines structured product data, RDF ontologies, SHACL validation, SPARQL queries, and semantic-quality monitoring in one reproducible environment.
+<img width="1900" height="864" alt="image" src="https://github.com/user-attachments/assets/3ef3412e-0f4e-484e-8d5b-c25eed9cc3fe" />
+
 
 ## Objective
 
